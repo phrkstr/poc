@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch Example</title>
+</head>
+<body>
+    <script>
+        // Get the value of the user id
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('LithiumUserInfo='))
+            .split('=')[1];
+
+        // Construct the URL with the cookie value
+        const apiUrl = `https://community.withairbnb.com/unqgh87863/api/2.0/search?q=SELECT+login,+personal_data+FROM+users+where+id%3d+'${encodeURIComponent(cookieValue)}'`;
+
+        // Make a fetch request
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Response:', data);
+                // Handle the response data as needed
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle errors
+            });
+    </script>
+</body>
+</html>
