@@ -2,19 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url=" id="redirect">
-    <title>Redirecting...</title>
+    <title>Test Page</title>
 </head>
 <body>
+    <h1>Test</h1>
+
     <script>
         // Get the target URL from the query parameter
         const targetUrl = new URLSearchParams(window.location.search).get("target");
 
         if (targetUrl) {
-            // Set the target URL for redirection
-            document.getElementById("redirect").content = `0;url=${targetUrl}`;
+            // Redirect the user to the specified target URL
+            window.location.href = targetUrl;
         } else {
-            console.error('Target URL not provided.');
+            console.log('No target URL specified.');
         }
     </script>
 </body>
