@@ -6,13 +6,16 @@
     <title>Redirecting...</title>
 </head>
 <body>
-  <h1>Redirecting...</h1>
     <script>
         // Get the target URL from the query parameter
         const targetUrl = new URLSearchParams(window.location.search).get("target");
 
-        // Set the target URL for redirection
-        document.getElementById("redirect").content = `0;url=${targetUrl}`;
+        if (targetUrl) {
+            // Set the target URL for redirection
+            document.getElementById("redirect").content = `0;url=${targetUrl}`;
+        } else {
+            console.error('Target URL not provided.');
+        }
     </script>
 </body>
 </html>
