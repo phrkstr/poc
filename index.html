@@ -33,9 +33,24 @@
         fetch("https://www.priceline.com/genai-svc/genai/chat/st/homePageSearch?shouldUseSearchHotelsFeature=y", {
             method: "POST",
             headers: {
+                "Accept": "*/*",
+                "Accept-Language": "en-US,en;q=0.5",
+                "Accept-Encoding": "gzip, deflate, br",
+                "Referer": "https://ih666r.github.io/poc/",
+                "access-control-allow-origin": "https://ih666r.github.io/poc/",
+                "cache-control": "no-cache",
                 "Content-Type": "application/json",
-                "Referer": "https://www.priceline.com", // Set the Referer header
-                "Origin": "https://www.priceline.com", // Set the Origin header
+                "newrelic": "eyJ2IjpbMCwxXSwiZCI6eyJ0eSI6IkJyb3dzZXIiLCJhYyI6IjI0MDYzNTUiLCJhcCI6IjI0ODUwNDk3NyIsImlkIjoiMDYyNWFkMDFiZDY0MmQ3NiIsInRyIjoiNzZhMzMyZDE0MWFkYjRiNGJmZjIwZmFiZGU5ODE3YTEiLCJ0aSI6MTcwODc2MTc5MDk1MX19",
+                "traceparent": "00-76a332d141adb4b4bff20fabde9817a1-0625ad01bd642d76-01",
+                "tracestate": "2406355@nr=0-1-2406355-248504977-0625ad01bd642d76----1708761790951",
+                "x-is-mobile": "Y",
+                "x-model-version": "4",
+                "x-request-from": "homePage",
+                "Origin": "https://ih666r.github.io/poc/",
+                "Connection": "keep-alive",
+                "Sec-Fetch-Dest": "empty",
+                "Sec-Fetch-Mode": "cors",
+                "Sec-Fetch-Site": "same-origin",
             },
             body: JSON.stringify({
                 shouldUseSearchHotelsFeature: true,
