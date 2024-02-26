@@ -2,21 +2,116 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test Page</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Bot Interface</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+        .chat-container {
+            width: 300px;
+            margin: 50px auto;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .chat-header {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        .chat-messages {
+            padding: 10px;
+            overflow-y: scroll;
+            height: 300px;
+        }
+        .user-message {
+            background-color: #4CAF50;
+            color: #fff;
+            border-radius: 10px;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+            max-width: 70%;
+            align-self: flex-end;
+        }
+        .bot-message {
+            background-color: #f2f2f2;
+            color: #000;
+            border-radius: 10px;
+            padding: 5px 10px;
+            margin-bottom: 10px;
+            max-width: 70%;
+        }
+        .chat-input {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f2f2f2;
+        }
+        .chat-input input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+        }
+        .chat-input button {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>Test</h1>
 
-    <script>
-        // Get the target URL from the query parameter
-        const targetUrl = new URLSearchParams(window.location.search).get("target");
+<div class="chat-container">
+    <div class="chat-header">
+        Chat Bot
+    </div>
+    <div class="chat-messages" id="chat-messages">
+        <!-- Chat messages will be displayed here -->
+    </div>
+    <div class="chat-input">
+        <input type="text" id="user-input" placeholder="Type a message...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+</div>
 
-        if (targetUrl) {
-            // Redirect the user to the specified target URL
-            window.location.href = targetUrl;
-        } else {
-            console.log('No target URL specified.');
-        }
-    </script>
+<script>
+    function sendMessage() {
+        var userInput = document.getElementById("user-input").value;
+        if (userInput.trim() === "") return; // If input is empty, do nothing
+
+        var chatMessages = document.getElementById("chat-messages");
+        var userMessageElement = document.createElement("div");
+        userMessageElement.className = "user-message";
+        userMessageElement.textContent = userInput;
+        chatMessages.appendChild(userMessageElement);
+
+        // You can add logic here to send the user message to a server for processing and get a response
+
+        // For now, let's simulate a bot response after a short delay
+        setTimeout(function() {
+            var botResponse = "This is a bot response.";
+            var botMessageElement = document.createElement("div");
+            botMessageElement.className = "bot-message";
+            botMessageElement.textContent = botResponse;
+            chatMessages.appendChild(botMessageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
+        }, 500);
+        
+        document.getElementById("user-input").value = ""; // Clear input field after sending message
+    }
+</script>
+
 </body>
 </html>
