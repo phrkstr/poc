@@ -75,18 +75,16 @@
                 ]
             }),
         })
-        .then(response => {
-            // Handle JSON response
-            return response.json().then(data => {
-                // Handle the response from the server here
-                var botResponse = data?.response || "Sorry, I couldn't process your request.";
-                var chatMessages = document.getElementById("chat-messages");
-                var botMessageElement = document.createElement("div");
-                botMessageElement.className = "bot-message";
-                botMessageElement.textContent = botResponse;
-                chatMessages.appendChild(botMessageElement);
-                chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
-            });
+        .then(response => response.text())
+        .then(text => {
+            // Handle the response from the server here
+            var botResponse = text || "Sorry, I couldn't process your request.";
+            var chatMessages = document.getElementById("chat-messages");
+            var botMessageElement = document.createElement("div");
+            botMessageElement.className = "bot-message";
+            botMessageElement.textContent = botResponse;
+            chatMessages.appendChild(botMessageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
         })
         .catch(error => {
             console.error("Error:", error);
