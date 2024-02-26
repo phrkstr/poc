@@ -5,71 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GPT_FOUR</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #333333; /* Dark grey background */
-            color: #00FF00; /* Hacker green text color */
-        }
-        .chat-container {
-            width: 300px;
-            margin: 50px auto;
-            background-color: #222222; /* Darker background */
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        .chat-header {
-            background-color: #111111; /* Darker background */
-            padding: 10px;
-            text-align: center;
-        }
-        .chat-messages {
-            padding: 10px;
-            overflow-y: scroll;
-            height: 300px;
-        }
-        .user-message {
-            background-color: #006600; /* Darker green for user messages */
-            border-radius: 10px;
-            padding: 5px 10px;
-            margin-bottom: 10px;
-            max-width: 70%;
-            align-self: flex-end;
-        }
-        .bot-message {
-            background-color: #222222; /* Darker background */
-            color: #00FF00; /* Hacker green text color */
-            border-radius: 10px;
-            padding: 5px 10px;
-            margin-bottom: 10px;
-            max-width: 70%;
-        }
-        .chat-input {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px;
-            background-color: #222222; /* Darker background */
-        }
-        .chat-input input[type="text"] {
-            flex: 1;
-            padding: 8px;
-            border-radius: 20px;
-            border: none;
-            outline: none;
-            background-color: #444444; /* Dark grey input background */
-            color: #00FF00; /* Hacker green text color */
-        }
-        .chat-input button {
-            padding: 8px 15px;
-            border: none;
-            border-radius: 20px;
-            background-color: #006600; /* Darker green for button */
-            color: #fff;
-            cursor: pointer;
-        }
+        /* Your CSS styles here */
     </style>
 </head>
 <body>
@@ -89,26 +25,15 @@
 
 <script>
     function sendMessage() {
-    // Step 1: Visit www.priceline.com to obtain necessary cookies or tokens
-    fetch("https://www.priceline.com", {
-        method: "GET",
-    })
-    .then(response => {
-        // Assuming you extract any necessary cookies or tokens from the response headers
-        const cookies = response.headers.get('set-cookie');
-        const csrfToken = response.headers.get('csrf-token');
-
         // User input from the input field
         var userInput = document.getElementById("user-input").value;
         if (userInput.trim() === "") return; // If input is empty, do nothing
 
-        // Step 2: Make the POST request to the chatbot endpoint
-        return fetch("https://www.priceline.com/genai-svc/genai/chat/st/homePageSearch?shouldUseSearchHotelsFeature=y", {
+        // Step 1: Make the POST request to the chatbot endpoint
+        fetch("https://www.priceline.com/genai-svc/genai/chat/st/homePageSearch?shouldUseSearchHotelsFeature=y", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Cookie": cookies, // Include any necessary cookies or tokens
-                "CSRF-Token": csrfToken, // Include any necessary CSRF token
                 "Referer": "https://www.priceline.com", // Set the Referer header
                 "Origin": "https://www.priceline.com", // Set the Origin header
             },
@@ -134,25 +59,34 @@
                     }
                 ]
             }),
+        })
+        .then(response => {
+            // Handle SSE (Server-Sent Events) response
+            if (response.ok && response.headers.get('content-type') === 'text/event-stream') {
+                const chatMessages = document.getElementById("chat-messages");
+                const eventSource = new EventSource('https://www.priceline.com/genai-svc/genai/chat/st/stream');
+
+                eventSource.onmessage = function(event) {
+                    // Handle messages received from the SSE stream
+                    const botMessageElement = document.createElement("div");
+                    botMessageElement.className = "bot-message";
+                    botMessageElement.textContent = event.data;
+                    chatMessages.appendChild(botMessageElement);
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
+                };
+
+                eventSource.onerror = function(error) {
+                    console.error("SSE Error:", error);
+                };
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
         });
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Handle the response from the server here
-        var botResponse = data?.response || "Sorry, I couldn't process your request.";
-        var chatMessages = document.getElementById("chat-messages");
-        var botMessageElement = document.createElement("div");
-        botMessageElement.className = "bot-message";
-        botMessageElement.textContent = botResponse;
-        chatMessages.appendChild(botMessageElement);
-        chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
-    })
-    .catch(error => {
-        console.error("Error:", error);
-    });
-    
-    document.getElementById("user-input").value = ""; // Clear input field after sending message
-}
+
+        // Clear input field after sending message
+        document.getElementById("user-input").value = "";
+    }
 </script>
 
 </body>
