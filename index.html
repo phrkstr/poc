@@ -61,43 +61,44 @@
             }),
         })
         .then(response => {
-    // Check the content type of the response
-    const contentType = response.headers.get('content-type');
+            // Check the content type of the response
+            const contentType = response.headers.get('content-type');
 
-    // Handle SSE (Server-Sent Events) response
-    if (contentType && contentType.includes('text/event-stream')) {
-        const chatMessages = document.getElementById("chat-messages");
-        const eventSource = new EventSource('https://www.priceline.com/genai-svc/genai/chat/st/stream');
+            // Handle SSE (Server-Sent Events) response
+            if (contentType && contentType.includes('text/event-stream')) {
+                const chatMessages = document.getElementById("chat-messages");
+                const eventSource = new EventSource('https://www.priceline.com/genai-svc/genai/chat/st/stream');
 
-        eventSource.onmessage = function(event) {
-            // Handle messages received from the SSE stream
-            const botMessageElement = document.createElement("div");
-            botMessageElement.className = "bot-message";
-            botMessageElement.textContent = event.data;
-            chatMessages.appendChild(botMessageElement);
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
-        };
+                eventSource.onmessage = function(event) {
+                    // Handle messages received from the SSE stream
+                    const botMessageElement = document.createElement("div");
+                    botMessageElement.className = "bot-message";
+                    botMessageElement.textContent = event.data;
+                    chatMessages.appendChild(botMessageElement);
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
+                };
 
-        eventSource.onerror = function(error) {
-            console.error("SSE Error:", error);
-        };
-    } else {
-        // Handle JSON response
-        return response.json().then(data => {
-            // Handle the response from the server here
-            var botResponse = data?.response || "Sorry, I couldn't process your request.";
-            var chatMessages = document.getElementById("chat-messages");
-            var botMessageElement = document.createElement("div");
-            botMessageElement.className = "bot-message";
-            botMessageElement.textContent = botResponse;
-            chatMessages.appendChild(botMessageElement);
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
+                eventSource.onerror = function(error) {
+                    console.error("SSE Error:", error);
+                };
+            } else {
+                // Handle JSON response
+                return response.json().then(data => {
+                    // Handle the response from the server here
+                    var botResponse = data?.response || "Sorry, I couldn't process your request.";
+                    var chatMessages = document.getElementById("chat-messages");
+                    var botMessageElement = document.createElement("div");
+                    botMessageElement.className = "bot-message";
+                    botMessageElement.textContent = botResponse;
+                    chatMessages.appendChild(botMessageElement);
+                    chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
         });
     }
-})
-.catch(error => {
-    console.error("Error:", error);
-});
 </script>
 
 </body>
