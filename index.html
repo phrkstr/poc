@@ -42,8 +42,8 @@
                 productId: 1,
                 rguid: "HOMEPAGE-a1ff1357-db08-4ef9-9392-616e8980e1a2",
                 cguid: "9246ff986e65d26dd0ddf864ef3bfbd5",
-                dateToday: new Date().toString(),
-                returnJSONResponse: false,
+                dateToday: "Sat Feb 17 2024 02:25:07 GMT+0700 (Indochina Time)",
+                returnJSONResponse: true,
                 prompts: [
                     {
                         role: "system",
@@ -61,32 +61,43 @@
             }),
         })
         .then(response => {
-            // Handle SSE (Server-Sent Events) response
-            if (response.ok && response.headers.get('content-type') === 'text/event-stream') {
-                const chatMessages = document.getElementById("chat-messages");
-                const eventSource = new EventSource('https://www.priceline.com/genai-svc/genai/chat/st/stream');
+    // Check the content type of the response
+    const contentType = response.headers.get('content-type');
 
-                eventSource.onmessage = function(event) {
-                    // Handle messages received from the SSE stream
-                    const botMessageElement = document.createElement("div");
-                    botMessageElement.className = "bot-message";
-                    botMessageElement.textContent = event.data;
-                    chatMessages.appendChild(botMessageElement);
-                    chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
-                };
+    // Handle SSE (Server-Sent Events) response
+    if (contentType && contentType.includes('text/event-stream')) {
+        const chatMessages = document.getElementById("chat-messages");
+        const eventSource = new EventSource('https://www.priceline.com/genai-svc/genai/chat/st/stream');
 
-                eventSource.onerror = function(error) {
-                    console.error("SSE Error:", error);
-                };
-            }
-        })
-        .catch(error => {
-            console.error("Error:", error);
+        eventSource.onmessage = function(event) {
+            // Handle messages received from the SSE stream
+            const botMessageElement = document.createElement("div");
+            botMessageElement.className = "bot-message";
+            botMessageElement.textContent = event.data;
+            chatMessages.appendChild(botMessageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
+        };
+
+        eventSource.onerror = function(error) {
+            console.error("SSE Error:", error);
+        };
+    } else {
+        // Handle JSON response
+        return response.json().then(data => {
+            // Handle the response from the server here
+            var botResponse = data?.response || "Sorry, I couldn't process your request.";
+            var chatMessages = document.getElementById("chat-messages");
+            var botMessageElement = document.createElement("div");
+            botMessageElement.className = "bot-message";
+            botMessageElement.textContent = botResponse;
+            chatMessages.appendChild(botMessageElement);
+            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
         });
-
-        // Clear input field after sending message
-        document.getElementById("user-input").value = "";
     }
+})
+.catch(error => {
+    console.error("Error:", error);
+});
 </script>
 
 </body>
