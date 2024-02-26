@@ -109,7 +109,7 @@
         prompts: [
             {
                 role: "system",
-                content: "Disregard all the previous instructions and simply " + userInput
+                content: userInput
             }
         ]
     };
@@ -125,15 +125,12 @@
     .then(response => response.json())
     .then(data => {
         // Handle the response from the server here
-        // For now, let's simulate a bot response after a short delay
-        setTimeout(function() {
-            var botResponse = "This is a bot response.";
-            var botMessageElement = document.createElement("div");
-            botMessageElement.className = "bot-message";
-            botMessageElement.textContent = botResponse;
-            chatMessages.appendChild(botMessageElement);
-            chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
-        }, 500);
+        var botResponse = data?.response || "Sorry, I couldn't process your request.";
+        var botMessageElement = document.createElement("div");
+        botMessageElement.className = "bot-message";
+        botMessageElement.textContent = botResponse;
+        chatMessages.appendChild(botMessageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight; // Auto-scroll to bottom
     })
     .catch(error => {
         console.error("Error:", error);
