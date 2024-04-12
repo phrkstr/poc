@@ -50,8 +50,8 @@
         "captchaEnabled": true
       };
 
-      // Make the POST request
-      fetch("/ul/api/v1/signin", {
+      // Make the POST request to ycs.agoda.com
+      fetch("https://ycs.agoda.com/ul/api/v1/signin", {
         method: "POST",
         headers: {
           "Host": "ycs.agoda.com",
@@ -72,7 +72,13 @@
         },
         body: JSON.stringify(requestBody)
       })
-      .then(response => response.json()) // Parse response body as JSON
+      .then(response => {
+        // Check if response is successful
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse response body as JSON
+      })
       .then(data => {
         // Handle response data
         console.log("Response:", data);
