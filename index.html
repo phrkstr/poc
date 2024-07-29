@@ -73,7 +73,11 @@
                     }
                 };
 
-                fetch('https://api.airbnb.cn/v2/authentications', {
+                // Use a public CORS proxy
+                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+                const targetUrl = 'https://api.airbnb.cn/v2/authentications';
+
+                fetch(proxyUrl + targetUrl, {
                     method: 'POST',
                     headers: {
                         'Host': 'api.airbnb.cn',
