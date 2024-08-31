@@ -35,7 +35,7 @@
 
     <script>
         document.getElementById('fetchData').addEventListener('click', function() {
-            fetch('https://example.com/bapi/kyc/v2/private/certificate/user-kyc/current-kyc-status')
+            fetch('https://www.binance.com/bapi/kyc/v2/private/certificate/user-kyc/current-kyc-status')
                 .then(response => response.json())
                 .then(data => {
                     document.getElementById('response').textContent = JSON.stringify(data, null, 2);
