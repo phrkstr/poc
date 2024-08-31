@@ -3,111 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
+    <title>API Request Example</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
         }
-        form {
-            max-width: 300px;
-            margin: auto;
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        input {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-        }
-        button {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
+        #container {
+            text-align: center;
         }
         #response {
             margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: #fff;
+            max-width: 600px;
             word-wrap: break-word;
-            white-space: pre-wrap; /* Ensure new lines are preserved */
         }
     </style>
 </head>
 <body>
-    <h1>Login</h1>
-    <form id="loginForm">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br><br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br><br>
-        <button type="submit">Login</button>
-    </form>
-    <div id="response"></div>
+    <div id="container">
+        <button id="fetchData">Get KYC Status</button>
+        <div id="response">Response will be displayed here.</div>
+    </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById('loginForm');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                const email = document.getElementById('email').value;
-                const password = document.getElementById('password').value;
-
-                const data = {
-                    "authenticationParams": {
-                        "email": {
-                            "email": email,
-                            "password": password
-                        }
-                    },
-                    "metadata": {
-                        "sxsMode": "ON"
-                    }
-                };
-
-                // Use a public CORS proxy
-                const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
-                const targetUrl = 'https://api.airbnb.cn/v2/authentications';
-
-                fetch(proxyUrl + targetUrl, {
-                    method: 'POST',
-                    headers: {
-                        'Host': 'api.airbnb.cn',
-                        'X-Airbnb-Locale': 'en',
-                        'X-User-Is-Auto-Translation-Enabled': 'true',
-                        'X-User-Is-Upfront-Pricing-Enabled': 'true',
-                        'User-Agent': 'Airbnb/24.30.1 Name/GLOBAL_TRAVEL AppVersion/24.30.1 ReleaseStage/live iPhone/17.6 Type/Phone',
-                        'X-Airbnb-Currency': 'USD',
-                        'X-Airbnb-Screensize': 'w=428.00;h=926.00',
-                        'Content-Length': JSON.stringify(data).length,
-                        'X-Airbnb-Network-Type': 'wifi',
-                        'X-Airbnb-Supports-Airlock-V2': 'true',
-                        'Accept-Language': 'en-US,en;q=0.9',
-                        'X-Airbnb-Api-Key': '915pw2pnf4h1aiguhph5gc5b2',
-                        'X-Airbnb-Request-Client-Origin': 'AuthenticationService/DefaultHodorRequester.swift:62',
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'Accept-Encoding': 'gzip, deflate, br'
-                    },
-                    body: JSON.stringify(data)
-                })
+        document.getElementById('fetchData').addEventListener('click', function() {
+            fetch('https://example.com/bapi/kyc/v2/private/certificate/user-kyc/current-kyc-status')
                 .then(response => response.json())
                 .then(data => {
-                    document.getElementById('response').innerText = JSON.stringify(data, null, 2);
+                    document.getElementById('response').textContent = JSON.stringify(data, null, 2);
                 })
                 .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('response').innerText = 'Error: ' + error;
+                    document.getElementById('response').textContent = 'Error fetching data: ' + error;
                 });
-            });
         });
     </script>
 </body>
