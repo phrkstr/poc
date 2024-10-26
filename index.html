@@ -1,49 +1,75 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>API Request Example</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f4f4f4;
-        }
-        #container {
-            text-align: center;
-        }
-        #response {
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            padding: 10px;
-            background-color: #fff;
-            max-width: 600px;
-            word-wrap: break-word;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savvy Search Clone</title>
+  <style>
+    /* Basic reset and styling */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f8f8f8; color: #333; }
+    .container { text-align: center; max-width: 400px; padding: 20px; }
+    h1 { font-size: 1.5em; margin-bottom: 10px; }
+    p { margin-bottom: 20px; color: #666; }
+
+    /* Location dropdown styling */
+    select { padding: 10px; font-size: 1em; border: 1px solid #ddd; border-radius: 5px; width: 100%; margin-bottom: 10px; }
+
+    /* Input and button styling */
+    .search-input { padding: 10px; width: 100%; font-size: 1em; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; }
+    .search-button { width: 100%; padding: 12px; background-color: #0078ff; color: white; font-size: 1em; border: none; border-radius: 5px; cursor: pointer; }
+    .search-button:hover { background-color: #005bb5; }
+
+    /* Suggestions styling */
+    .suggestions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
+    .suggestion-button { padding: 10px; background-color: #f0f0f0; border-radius: 5px; border: 1px solid #ddd; cursor: pointer; font-size: 0.9em; }
+    .suggestion-button:hover { background-color: #e0e0e0; }
+
+    /* Footer styling */
+    .footer { font-size: 0.8em; color: #888; margin-top: 30px; }
+  </style>
 </head>
 <body>
-    <div id="container">
-        <button id="fetchData">Get KYC Status</button>
-        <div id="response">Response will be displayed here.</div>
+  <div class="container">
+    <h1>What kind of trip is on your mind?</h1>
+    
+    <!-- Location Dropdown -->
+    <select id="location">
+      <option value="Tbilisi">Tbilisi</option>
+      <option value="New York">New York</option>
+      <option value="London">London</option>
+      <option value="Tokyo">Tokyo</option>
+      <option value="Paris">Paris</option>
+    </select>
+    
+    <!-- Search Input -->
+    <input type="text" class="search-input" placeholder="Enter anything you like..." />
+    
+    <!-- Search Button -->
+    <button class="search-button" onclick="search()">✨ Search</button>
+
+    <!-- Suggestions Section -->
+    <div class="suggestions">
+      <button class="suggestion-button">Cheap European city breaks</button>
+      <button class="suggestion-button">Direct flights next weekend</button>
+      <button class="suggestion-button">Foodie city breaks</button>
+      <button class="suggestion-button">Nature retreats near airports</button>
+      <button class="suggestion-button">Birthday trip</button>
+      <button class="suggestion-button">Paradise beaches</button>
     </div>
 
-    <script>
-        document.getElementById('fetchData').addEventListener('click', function() {
-            fetch('https://www.binance.com/bapi/kyc/v2/private/certificate/user-kyc/current-kyc-status')
-                .then(response => response.json())
-                .then(data => {
-                    document.getElementById('response').textContent = JSON.stringify(data, null, 2);
-                })
-                .catch(error => {
-                    document.getElementById('response').textContent = 'Error fetching data: ' + error;
-                });
-        });
-    </script>
+    <!-- Footer -->
+    <div class="footer">
+      Powered by artificial intelligence, check our <a href="#">privacy policy</a>.
+    </div>
+  </div>
+
+  <!-- JavaScript for Search Button -->
+  <script>
+    function search() {
+      const location = document.getElementById("location").value;
+      alert("Searching for trips in " + location + "!");
+    }
+  </script>
 </body>
 </html>
