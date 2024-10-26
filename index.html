@@ -3,75 +3,22 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Savvy Search Clone</title>
-  <style>
-    /* Basic reset and styling */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #f8f8f8; color: #333; }
-    .container { text-align: center; max-width: 400px; padding: 20px; }
-    h1 { font-size: 1.5em; margin-bottom: 10px; }
-    p { margin-bottom: 20px; color: #666; }
-
-    /* Location dropdown styling */
-    select { padding: 10px; font-size: 1em; border: 1px solid #ddd; border-radius: 5px; width: 100%; margin-bottom: 10px; }
-
-    /* Input and button styling */
-    .search-input { padding: 10px; width: 100%; font-size: 1em; border: 1px solid #ddd; border-radius: 5px; margin-bottom: 15px; }
-    .search-button { width: 100%; padding: 12px; background-color: #0078ff; color: white; font-size: 1em; border: none; border-radius: 5px; cursor: pointer; }
-    .search-button:hover { background-color: #005bb5; }
-
-    /* Suggestions styling */
-    .suggestions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 20px; }
-    .suggestion-button { padding: 10px; background-color: #f0f0f0; border-radius: 5px; border: 1px solid #ddd; cursor: pointer; font-size: 0.9em; }
-    .suggestion-button:hover { background-color: #e0e0e0; }
-
-    /* Footer styling */
-    .footer { font-size: 0.8em; color: #888; margin-top: 30px; }
-  </style>
+  <title>Search Example</title>
 </head>
 <body>
-  <div class="container">
+  <div>
     <h1>What kind of trip is on your mind?</h1>
-    
-    <!-- Location Dropdown -->
-    <select id="location">
-      <option value="Tbilisi">Tbilisi</option>
-      <option value="New York">New York</option>
-      <option value="London">London</option>
-      <option value="Tokyo">Tokyo</option>
-      <option value="Paris">Paris</option>
-    </select>
-    
-    <!-- Search Input -->
-    <input type="text" id="queryInput" class="search-input" placeholder="Enter anything you like..." />
-    
-    <!-- Search Button -->
-    <button class="search-button" onclick="search()">✨ Search</button>
-
-    <!-- Suggestions Section -->
-    <div class="suggestions">
-      <button class="suggestion-button">Cheap European city breaks</button>
-      <button class="suggestion-button">Direct flights next weekend</button>
-      <button class="suggestion-button">Foodie city breaks</button>
-      <button class="suggestion-button">Nature retreats near airports</button>
-      <button class="suggestion-button">Birthday trip</button>
-      <button class="suggestion-button">Paradise beaches</button>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-      Powered by artificial intelligence, check our <a href="#">privacy policy</a>.
-    </div>
+    <input type="text" id="queryInput" placeholder="Enter anything you like..." />
+    <button onclick="search()">✨ Search</button>
   </div>
 
-  <!-- JavaScript for Search Button -->
   <script>
     async function search() {
       const query = document.getElementById("queryInput").value;
       const currentDateTime = new Date();
       const dateData = {
         year: currentDateTime.getFullYear(),
-        month: currentDateTime.getMonth() + 1, // JavaScript months are 0-based
+        month: currentDateTime.getMonth() + 1,
         day: currentDateTime.getDate(),
         hour: currentDateTime.getHours(),
         minute: currentDateTime.getMinutes()
@@ -102,4 +49,17 @@
             "X-Skyscanner-Authenticated": "true",
             "X-Px-Os-Version": "17.7.1",
             "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjJRZk8zWTAxRzlFNkUycl9hbnZDayJ9.eyJodHRwczovL3NreXNjYW5uZXIubmV0L3V0aWQiOiJiZjFjZjMzZC02Mzc3LTRkMjctOTMzZS05MWEyZWUwNmU4NzIiLCJodHRwczovL3NreXNjYW5uZXIubmV0L2lzTmV3VXNlciI6dHJ1ZSwiaHR0cHM6Ly9za3lzY2FubmVyLm5ldC9jc3JmIjoiOTdiZWNjNmQ1N2I3YWYwNTJhMjAwYTQ0ODdlMmNhYjQiLCJodHRwczovL3NreXNjYW5uZXIubmV0L2xvZ2luVHlwZSI6ImVtYWlsIiwiaHR0cHM6Ly9za3lzY2FubmVyLm5ldC9pc1NvY2lhbCI6ZmFsc2UsImh0dHBzOi8vc2t5c2Nhbm5lci5uZXQvanRpIjoiODAxZjZmYzEtZTQzMC00YjUzLThkM2UtZDRmODE5NjU2ZDMzIiwiaXNzIjoiaHR0cHM6Ly9za3lzY2FubmVyLmV1LmF1dGgwLmNvbS8iLCJzdWIiOi
+            "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjJRZk8zWTAxRzlFNkUycl9hbnZDayJ9.eyJodHRwczovL3NreXNjYW5uZXIubmV0L3V0aWQiOiJiZjFjZjMzZC02Mzc3LTRkMjctOTMzZS05MWEyZWUwNmU4NzIiLCJodHRwczovL3NreXNjYW5uZXIubmV0L2lzTmV3VXNlciI6dHJ1ZSwiaHR0cHM6Ly9za3lzY2FubmVyLm5ldC9jc3JmIjoiOTdiZWNjNmQ1N2I3YWYwNTJhMjAwYTQ0ODdlMmNhYjQiLCJodHRwczovL3NreXNjYW5uZXIubmV0L2xvZ2luVHlwZSI6ImVtYWlsIiwiaHR0cHM6Ly9za3lzY2FubmVyLm5ldC9pc1NvY2lhbCI6ZmFsc2UsImh0dHBzOi8vc2t5c2Nhbm5lci5uZXQvanRpIjoiODAxZjZmYzEtZTQzMC00YjUzLThkM2UtZDRmODE5NjU2ZDMzIiwiaXNzIjoiaHR0cHM6Ly9za3lzY2FubmVyLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2NzFkMzBiNjM5M2MwOTljZjIxODk4ODAiLCJhdWQiOlsiaHR0cHM6Ly9nYXRld2F5LnNreXNjYW5uZXIubmV0L2lkZW50aXR5IiwiaHR0cHM6Ly9za3lzY2FubmVyLmV1LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE3Mjk5Njk2MDksImV4cCI6MTcyOTk5ODQwOSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIG9wZW5pZCBvZmZsaW5lX2FjY2VzcyIsImd0eSI6InBhc3N3b3JkIiwiYXpwIjoiZTJ6RlNhd3FSdGtENG5lYW90RUp1OGlpMEZzYjA2SFYifQ.YppN4c0x-8gUCe9qcb4eEQp9MrzATQ6OJIM8RF86yWlWXCvRZhs2XpEJEQH9KzeqLVJXcXJzwRyCwu82oATUAa3fkXZmk4gcX1UU_a5NXvwu2qzZGnYULngNUzBKrS6gyAWeAD3Lq4r8zOF8HkIdmWpdvncX89KmBdRm30cG0ovSs9A48HJA0bv9xNsFWpsiQw5RFkZ_areC9VZYw3edb44vd-88n7i1kFSQaXRLUYoVfuNNC-pklSPZQiKW7GQOHRv0WUH6gT-w9gM-eIWmtWAU_U3juByCVwcCT-W5gDUkg_0CAJ4y1uBchKKUFp_OMxk5YoTteOYeB3Pkd3pXbQ"
+          },
+          body: data
+        });
+
+        const result = await response.json();
+        console.log("Response:", result);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+  </script>
+</body>
+</html>
