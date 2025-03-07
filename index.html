@@ -4,19 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auto-Download Harmless.zip</title>
+</head>
+<body>
+    <h2>Your download should start automatically...</h2>
+    <p>If not, <a id="manual-download" download="harmless.zip">click here</a> to download manually.</p>
+    
     <script>
         window.onload = function() {
+            // Base64-encoded ZIP file content (empty harmless.zip)
+            let zipBase64 = "UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==";
+            let binary = atob(zipBase64);
+            let array = new Uint8Array(binary.length);
+            for (let i = 0; i < binary.length; i++) {
+                array[i] = binary.charCodeAt(i);
+            }
+            let blob = new Blob([array], { type: 'application/zip' });
+            let url = URL.createObjectURL(blob);
+
+            // Auto-download the ZIP file
             let link = document.createElement('a');
-            link.href = "https://drive.google.com/file/d/1qR41E9eqmLXqI6NYyNd_Sb2QUTvQfCE0/view?usp=drive_linkp"; // Replace with your hosted file URL
+            link.href = url;
             link.download = "harmless.zip";
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+
         };
     </script>
-</head>
-<body>
-    <h2>Your download should start automatically...</h2>
-    <p>If not, <a href="https://drive.google.com/file/d/1qR41E9eqmLXqI6NYyNd_Sb2QUTvQfCE0/view?usp=drive_link" download>click here</a> to download manually.</p>
 </body>
 </html>
