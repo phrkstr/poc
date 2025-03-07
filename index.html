@@ -4,31 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Auto-Download Harmless.zip</title>
+    <!-- Include JSZip library from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 </head>
 <body>
     <h2>Your download should start automatically...</h2>
-    <p>If not, <a id="manual-download" download="harmless.zip">click here</a> to download manually.</p>
+    <p>If not, <a id="manual-download" href="#">click here</a> to download manually.</p>
     
     <script>
         window.onload = function() {
-            // Base64-encoded ZIP file content (empty harmless.zip)
-            let zipBase64 = "UEsFBgAAAAAAAAAAAAAAAAAAAAAAAA==";
-            let binary = atob(zipBase64);
-            let array = new Uint8Array(binary.length);
-            for (let i = 0; i < binary.length; i++) {
-                array[i] = binary.charCodeAt(i);
-            }
-            let blob = new Blob([array], { type: 'application/zip' });
-            let url = URL.createObjectURL(blob);
-
-            // Auto-download the ZIP file
-            let link = document.createElement('a');
-            link.href = url;
-            link.download = "harmless.zip";
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-
+            // Create a new JSZip instance
+            let zip = new JSZip();
+            
+            // Add test.txt with content to the zip
+            zip.file("test.txt", "This file was downloaded automatically when visiting the job listing page. In certain browsers like Safari, it might be auto-extracted and potentially executed, demonstrating the security risk.");
+            
+            // Generate the zip file as a blob
+            zip.generateAsync({ type: "blob" }).then(function(blob) {
+                // Create a URL for the blob
+                let url = URL.createObjectURL(blob);
+                
+                // Trigger automatic download
+                let link = document.createElement('a');
+                link.href = url;
+                link.download = "harmless.zip";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Set the manual download link
+                document.getElementById('manual-download').href = url;
+            });
         };
     </script>
 </body>
