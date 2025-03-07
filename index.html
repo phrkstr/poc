@@ -14,12 +14,6 @@
         window.onload = function() {
             let zip = new JSZip();
             
-            // Add a macOS script (harmless)
-            zip.file("alert.command", "#!/bin/bash\nosascript -e 'display alert \"PoC: Your device could be compromised.\"'");
-            
-            // Add a Windows batch file (harmless)
-            zip.file("warning.bat", "@echo off\necho This could have been malware!\npause");
-            
             // Add explanation
             zip.file("README.txt", "This ZIP auto-downloaded. In Safari, it may auto-extract and run, showing a security flaw.");
             
