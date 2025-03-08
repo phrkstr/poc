@@ -34,48 +34,47 @@
         button:hover {
             background-color: #0056b3;
         }
+        .warning {
+            color: red;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
     <h1>Vulnerability PoC Demonstration</h1>
-    <p>This webpage demonstrates Proofs of Concept (PoCs) for vulnerabilities related to malicious URLs. It detects your operating system and shows a simulated PoC tailored to your machine. No actual malicious files are served—this is for educational purposes only.</p>
+    <p><strong>Disclaimer:</strong> This webpage provides dummy files for educational purposes only. These files are harmless and do not contain any malware. They are embedded directly in this page and intended to demonstrate how vulnerabilities could be exploited. Please handle them with care and delete them after the demonstration.</p>
 
+    <!-- Android PoC Section -->
     <div id="Android-poc" class="poc-section">
         <h2>Android Vulnerability PoC</h2>
         <p><strong>Vulnerability:</strong> On Android, a malicious site could attempt to auto-download an APK file, which, if installed, could compromise your device (e.g., spyware, ransomware).</p>
-        <button onclick="showPoC('Android')">Simulate APK Download</button>
-        <h3>How It Works:</h3>
-        <pre>
-            // Example: Triggering an auto-download
-            var a = document.createElement('a');
-            a.href = 'malicious.apk';
-            a.download = 'malicious.apk';
-            document.body.appendChild(a);
-            a.click();
-        </pre>
+        <button onclick="downloadFile('Android')">Download Dummy APK</button>
+        <p class="warning">Warning: This is a harmless dummy file for demonstration purposes only. Do not install it on your device.</p>
+        <p><strong>Note:</strong> This is a minimal text file with an .apk extension for demonstration. Real APKs require Android Studio to create properly.</p>
+        <p><strong>After Demonstration:</strong> Please delete the downloaded file from your device to avoid any confusion.</p>
     </div>
 
+    <!-- Windows PoC Section -->
     <div id="Windows-poc" class="poc-section">
         <h2>Windows Vulnerability PoC</h2>
         <p><strong>Vulnerability:</strong> On Windows, a site might trick you into downloading an EXE file disguised as a legitimate app, potentially installing malware (e.g., trojans, keyloggers).</p>
-        <button onclick="showPoC('Windows')">Simulate EXE Download</button>
-        <h3>How It Works:</h3>
-        <p>Example of a deceptive button:</p>
-        <button onclick="alert('Downloading resume_builder.exe... (simulated)')">Download Resume Builder</button>
+        <button onclick="downloadFile('Windows')">Download Dummy EXE</button>
+        <p class="warning">Warning: This is a harmless dummy file for demonstration purposes only. Do not run it on your system.</p>
+        <p><strong>Note:</strong> This is a text file with an .exe extension. Real EXEs require compilation tools like PyInstaller.</p>
+        <p><strong>After Demonstration:</strong> Please delete the downloaded file from your system to avoid any confusion.</p>
     </div>
 
+    <!-- macOS PoC Section -->
     <div id="macOS-poc" class="poc-section">
         <h2>macOS Vulnerability PoC</h2>
         <p><strong>Vulnerability:</strong> On macOS, a fake software update could deceive you into installing a DMG file containing malware (e.g., adware, fake updates).</p>
-        <button onclick="showPoC('macOS')">Simulate DMG Download</button>
-        <h3>How It Works:</h3>
-        <div style="border: 1px solid black; padding: 10px; margin-top: 10px;">
-            <h3>Software Update Available</h3>
-            <p>A new version of macOS is available. Click below to install.</p>
-            <button onclick="alert('Installing update... (simulated)')">Install Now</button>
-        </div>
+        <button onclick="downloadFile('macOS')">Download Dummy DMG</button>
+        <p class="warning">Warning: This is a harmless dummy file for demonstration purposes only. Do not mount or run it on your system.</p>
+        <p><strong>Note:</strong> This is a text file with a .dmg extension. Real DMGs require macOS tools like Xcode.</p>
+        <p><strong>After Demonstration:</strong> Please delete the downloaded file from your system to avoid any confusion.</p>
     </div>
 
+    <!-- iOS PoC Section (No Download) -->
     <div id="iOS-poc" class="poc-section">
         <h2>iOS Vulnerability PoC</h2>
         <p><strong>Vulnerability:</strong> On iOS, while auto-downloads are rare, phishing attacks can trick you into entering sensitive data on fake login pages.</p>
@@ -125,26 +124,40 @@
             return os;
         }
 
-        // Function to simulate the PoC based on OS
+        // Function to simulate the PoC for iOS phishing
         function showPoC(os) {
-            var message = '';
+            if (os === 'iOS') {
+                alert('A phishing attack might mimic a login page, tricking you into entering your iOS credentials.');
+            }
+        }
+
+        // Function to handle file downloads with embedded dummy files
+        function downloadFile(os) {
+            var fileUrl = '';
+            var fileName = '';
             switch(os) {
                 case 'Android':
-                    message = 'In a real attack, this could trigger an automatic download of an APK file, potentially compromising your Android device.';
+                    fileUrl = 'data:text/plain;base64,VGhpcyBpcyBhIGhhcm1sZXNzIGR1bW15IEFQSyBmaWxlIGZvciBkZW1vbnN0cmF0aW9uLiBObyBhY3R1YWwgQVBLIHN0cnVjdHVyZSBoZXJlLg==';
+                    fileName = 'dummy-android.apk';
                     break;
                 case 'Windows':
-                    message = 'A malicious site could prompt you to download an EXE file, which might install malware on your Windows system.';
+                    fileUrl = 'data:text/plain;base64,VGhpcyBpcyBhIGhhcm1sZXNzIGR1bW15IEVYRSBmaWxlIGZvciBkZW1vbnN0cmF0aW9uLiBObyBhY3R1YWwgZXhlY3V0YWJsZSBjb2RlLg==';
+                    fileName = 'dummy-windows.exe';
                     break;
                 case 'macOS':
-                    message = 'You could be tricked into downloading a DMG file disguised as a macOS update, installing malicious software.';
-                    break;
-                case 'iOS':
-                    message = 'A phishing attack might mimic a login page, tricking you into entering your iOS credentials.';
+                    fileUrl = 'data:text/plain;base64,VGhpcyBpcyBhIGhhcm1sZXNzIGR1bW15IERNRyBmaWxlIGZvciBkZW1vbnN0cmF0aW9nLiBObyBhY3R1YWwgRE1HIHN0cnVjdHVyZSBoZXJlLg==';
+                    fileName = 'dummy-macos.dmg';
                     break;
                 default:
-                    message = 'Your system could be vulnerable to various attacks. Stay cautious!';
+                    alert('No file available for this OS.');
+                    return;
             }
-            alert(message);
+            var a = document.createElement('a');
+            a.href = fileUrl;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
 
         // Automatically detect OS and show relevant PoC section on page load
