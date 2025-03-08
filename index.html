@@ -3,77 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>X Job Opportunities</title>
+    <title>Vulnerability PoC Demonstration</title>
     <style>
         body {
-            font-family: 'Helvetica', sans-serif;
-            margin: 0;
-            padding: 40px;
-            background-color: #f9f9f9;
-            color: #333;
+            font-family: Arial, sans-serif;
+            margin: 20px;
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .poc-section {
+            display: none;
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-top: 10px;
         }
-        h1 {
-            color: #2c3e50;
-            font-size: 32px;
+        .visible {
+            display: block;
         }
-        p {
-            font-size: 16px;
-            line-height: 1.6;
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
         }
-        .download-notice {
-            color: #e74c3c;
-            font-weight: bold;
+        button {
+            padding: 10px 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
         }
-        a {
-            color: #3498db;
-            text-decoration: none;
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.7.1/jszip.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to X Job Opportunities</h1>
-        <p>Thank you for your interest in joining X! Your job offer details are being prepared for download.</p>
-        <p class="download-notice">Downloading Job_Offer_Details_2023.zip now...</p>
-        <p>If the download doesn’t start, <a id="manual-download" href="#">click here</a>.</p>
+    <h1>Vulnerability PoC Demonstration</h1>
+    <p>This webpage demonstrates Proofs of Concept (PoCs) for vulnerabilities related to malicious URLs. It detects your operating system and shows a simulated PoC tailored to your machine. No actual malicious files are served—this is for educational purposes only.</p>
+
+    <div id="Android-poc" class="poc-section">
+        <h2>Android Vulnerability PoC</h2>
+        <p><strong>Vulnerability:</strong> On Android, a malicious site could attempt to auto-download an APK file, which, if installed, could compromise your device (e.g., spyware, ransomware).</p>
+        <button onclick="showPoC('Android')">Simulate APK Download</button>
+        <h3>How It Works:</h3>
+        <pre>
+            // Example: Triggering an auto-download
+            var a = document.createElement('a');
+            a.href = 'malicious.apk';
+            a.download = 'malicious.apk';
+            document.body.appendChild(a);
+            a.click();
+        </pre>
     </div>
 
+    <div id="Windows-poc" class="poc-section">
+        <h2>Windows Vulnerability PoC</h2>
+        <p><strong>Vulnerability:</strong> On Windows, a site might trick you into downloading an EXE file disguised as a legitimate app, potentially installing malware (e.g., trojans, keyloggers).</p>
+        <button onclick="showPoC('Windows')">Simulate EXE Download</button>
+        <h3>How It Works:</h3>
+        <p>Example of a deceptive button:</p>
+        <button onclick="alert('Downloading resume_builder.exe... (simulated)')">Download Resume Builder</button>
+    </div>
+
+    <div id="macOS-poc" class="poc-section">
+        <h2>macOS Vulnerability PoC</h2>
+        <p><strong>Vulnerability:</strong> On macOS, a fake software update could deceive you into installing a DMG file containing malware (e.g., adware, fake updates).</p>
+        <button onclick="showPoC('macOS')">Simulate DMG Download</button>
+        <h3>How It Works:</h3>
+        <div style="border: 1px solid black; padding: 10px; margin-top: 10px;">
+            <h3>Software Update Available</h3>
+            <p>A new version of macOS is available. Click below to install.</p>
+            <button onclick="alert('Installing update... (simulated)')">Install Now</button>
+        </div>
+    </div>
+
+    <div id="iOS-poc" class="poc-section">
+        <h2>iOS Vulnerability PoC</h2>
+        <p><strong>Vulnerability:</strong> On iOS, while auto-downloads are rare, phishing attacks can trick you into entering sensitive data on fake login pages.</p>
+        <button onclick="showPoC('iOS')">Simulate Phishing Attack</button>
+        <h3>How It Works:</h3>
+        <p>A phishing site might display a fake login prompt to steal credentials.</p>
+    </div>
+
+    <h2>Mitigation Strategies</h2>
+    <ul>
+        <li>Verify URLs before clicking them.</li>
+        <li>Avoid downloading files from untrusted sources.</li>
+        <li>Keep your operating system and software updated.</li>
+        <li>Be wary of unsolicited prompts or updates.</li>
+    </ul>
+
+    <h2>References</h2>
+    <p>Learn more about these vulnerabilities:</p>
+    <ul>
+        <li><a href="https://www.android.com/safety/" target="_blank">Android Security</a></li>
+        <li><a href="https://support.microsoft.com/en-us/security" target="_blank">Windows Security</a></li>
+        <li><a href="https://www.apple.com/macos/security/" target="_blank">macOS Security</a></li>
+    </ul>
+
     <script>
+        // Function to detect the user's operating system
+        function getOS() {
+            var userAgent = window.navigator.userAgent,
+                platform = window.navigator.platform,
+                macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+                windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+                iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+                os = null;
+
+            if (macosPlatforms.indexOf(platform) !== -1) {
+                os = 'macOS';
+            } else if (iosPlatforms.indexOf(platform) !== -1) {
+                os = 'iOS';
+            } else if (windowsPlatforms.indexOf(platform) !== -1) {
+                os = 'Windows';
+            } else if (/Android/.test(userAgent)) {
+                os = 'Android';
+            } else if (!os && /Linux/.test(platform)) {
+                os = 'Linux';
+            }
+
+            return os;
+        }
+
+        // Function to simulate the PoC based on OS
+        function showPoC(os) {
+            var message = '';
+            switch(os) {
+                case 'Android':
+                    message = 'In a real attack, this could trigger an automatic download of an APK file, potentially compromising your Android device.';
+                    break;
+                case 'Windows':
+                    message = 'A malicious site could prompt you to download an EXE file, which might install malware on your Windows system.';
+                    break;
+                case 'macOS':
+                    message = 'You could be tricked into downloading a DMG file disguised as a macOS update, installing malicious software.';
+                    break;
+                case 'iOS':
+                    message = 'A phishing attack might mimic a login page, tricking you into entering your iOS credentials.';
+                    break;
+                default:
+                    message = 'Your system could be vulnerable to various attacks. Stay cautious!';
+            }
+            alert(message);
+        }
+
+        // Automatically detect OS and show relevant PoC section on page load
         window.onload = function() {
-            let zip = new JSZip();
-
-            // macOS Payload
-            zip.file("Job_Offer.command", "#!/bin/bash\necho \"Simulating malware execution...\"\nsleep 2\nosascript -e 'display alert \"CRITICAL ALERT: Your Files Are Encrypted!\" message \"This is a PoC. In a real attack, your files would be locked, and a ransom demanded. Imagine losing all your data!\"'");
-
-            // Windows Payload
-            zip.file("Job_Offer.bat", "@echo off\necho Simulating data theft...\ntimeout /t 2 >nul\necho ALERT: Your personal data has been stolen! This is a PoC - in a real attack, your passwords and files could be sent to a hacker.\npause");
-
-            // README
-            zip.file("README.txt", "*** SECURITY PROOF OF CONCEPT (PoC) ***\nThis ZIP demonstrates a critical vulnerability in X's job listing system.\nThe files (Job_Offer.command and Job_Offer.bat) are harmless and only simulate what a real attacker could do.\nIn an actual exploit:\n- On macOS: The script could encrypt your files (ransomware).\n- On Windows: It could steal your data and send it to a remote server.\nThis is NOT malware—it’s a wake-up call. Imagine this being real.");
-
-            // Generate and download ZIP
-            zip.generateAsync({ type: "blob" }).then(function(blob) {
-                let url = URL.createObjectURL(blob);
-                let link = document.createElement("a");
-                link.href = url;
-                link.download = "Job_Offer_Details_2023.zip";
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-
-                // Manual download fallback
-                document.getElementById("manual-download").href = url;
-            });
-        };
+            var os = getOS();
+            var pocSection = document.getElementById(os + '-poc');
+            if (pocSection) {
+                pocSection.classList.add('visible');
+            } else {
+                alert('Your operating system was not specifically detected. Please be cautious with downloads and links.');
+            }
+        }
     </script>
 </body>
 </html>
