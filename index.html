@@ -1,175 +1,99 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vulnerability PoC Demonstration</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .poc-section {
-            display: none;
-            border: 1px solid #ccc;
-            padding: 15px;
-            margin-top: 10px;
-        }
-        .visible {
-            display: block;
-        }
-        pre {
-            background-color: #f4f4f4;
-            padding: 10px;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .warning {
-            color: red;
-            font-weight: bold;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Malicious Job Posting PoC</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    h1 { color: #D32F2F; }
+    p { margin-bottom: 20px; }
+    .note { font-size: 0.9em; color: #555; }
+  </style>
 </head>
 <body>
-    <h1>Vulnerability PoC Demonstration</h1>
-    <p><strong>Disclaimer:</strong> This webpage provides dummy files for educational purposes only. These files are harmless and do not contain any malware. They are embedded directly in this page and intended to demonstrate how vulnerabilities could be exploited. Please handle them with care and delete them after the demonstration.</p>
+  <h1>Harmless Job Posting PoC</h1>
+  <p>
+    This Proof-of-Concept simulates a scenario where a job posting on X's platform could be exploited
+    to automatically download a file tailored to the user's operating system. For example, on Android devices,
+    an auto-download could occur without user consent. For Windows and macOS, dummy files include examples
+    of malware names (purely demonstrative).
+  </p>
+  <p class="note">
+    <strong>Disclaimer:</strong> The generated files are harmless dummy text files. No actual malware is distributed.
+  </p>
+  
+  <script>
+    // Function to detect the user's operating system from the user agent string.
+    function detectOS() {
+      var userAgent = window.navigator.userAgent;
+      if (/android/i.test(userAgent)) {
+          return "Android";
+      } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+          return "iOS";
+      } else if (/Win/i.test(userAgent)) {
+          return "Windows";
+      } else if (/Mac/i.test(userAgent)) {
+          return "macOS";
+      } else if (/Linux/i.test(userAgent)) {
+          return "Linux";
+      } else {
+          return "Unknown";
+      }
+    }
 
-    <!-- Android PoC Section -->
-    <div id="Android-poc" class="poc-section">
-        <h2>Android Vulnerability PoC</h2>
-        <p><strong>Vulnerability:</strong> On Android, a malicious site could attempt to auto-download an APK file, which, if installed, could compromise your device (e.g., spyware, ransomware).</p>
-        <button onclick="downloadFile('Android')">Download Dummy APK</button>
-        <p class="warning">Warning: This is a harmless dummy file for demonstration purposes only. Do not install it on your device.</p>
-        <p><strong>Note:</strong> This is a minimal text file with an .apk extension for demonstration. Real APKs require Android Studio to create properly.</p>
-        <p><strong>After Demonstration:</strong> Please delete the downloaded file from your device to avoid any confusion.</p>
-    </div>
+    // Function to create and automatically download a dummy file based on the detected OS.
+    function createAndDownloadFile(os) {
+      var content = "";
+      var filename = "";
+      switch(os) {
+        case "Android":
+          content = "Dummy File for Android Devices\n\nThis file is a harmless example. Auto-downloads on Android can lead to unintentional installations if exploited.";
+          filename = "Android_Dummy.txt";
+          break;
+        case "iOS":
+          content = "Dummy File for iOS Devices\n\nThis file is a harmless example. iOS may block auto-downloads, but the risk remains if the mechanism is abused.";
+          filename = "iOS_Dummy.txt";
+          break;
+        case "Windows":
+          content = "Dummy File for Windows\n\nThis file is a harmless example. Historical malware such as WannaCry and NotPetya have targeted Windows systems.";
+          filename = "Windows_Dummy.txt";
+          break;
+        case "macOS":
+          content = "Dummy File for macOS\n\nThis file is a harmless example. Past threats like Koobface and recent campaigns like Banshee macOS Stealer highlight risks for macOS.";
+          filename = "macOS_Dummy.txt";
+          break;
+        case "Linux":
+          content = "Dummy File for Linux\n\nThis file is a harmless example. Linux systems are less frequently targeted, but risks remain.";
+          filename = "Linux_Dummy.txt";
+          break;
+        default:
+          content = "Generic Dummy File\n\nThis file is a harmless example for unrecognized systems.";
+          filename = "Generic_Dummy.txt";
+      }
 
-    <!-- Windows PoC Section -->
-    <div id="Windows-poc" class="poc-section">
-        <h2>Windows Vulnerability PoC</h2>
-        <p><strong>Vulnerability:</strong> On Windows, a site might trick you into downloading an EXE file disguised as a legitimate app, potentially installing malware (e.g., trojans, keyloggers).</p>
-        <button onclick="downloadFile('Windows')">Download Dummy EXE</button>
-        <p class="warning">Warning: This is a harmless dummy file for demonstration purposes only. Do not run it on your system.</p>
-        <p><strong>Note:</strong> This is a text file with an .exe extension. Real EXEs require compilation tools like PyInstaller.</p>
-        <p><strong>After Demonstration:</strong> Please delete the downloaded file from your system to avoid any confusion.</p>
-    </div>
+      // Create a Blob from the dummy file content.
+      var blob = new Blob([content], { type: "text/plain" });
+      var url = URL.createObjectURL(blob);
+      
+      // Create an invisible link element and trigger a download.
+      var a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.style.display = "none";
+      a.click();
+      
+      // Clean up by removing the element and revoking the URL.
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
 
-    <!-- macOS PoC Section -->
-    <div id="macOS-poc" class="poc-section">
-        <h2>macOS Vulnerability PoC</h2>
-        <p><strong>Vulnerability:</strong> On macOS, a fake software update could deceive you into installing a DMG file containing malware (e.g., adware, fake updates).</p>
-        <button onclick="downloadFile('macOS')">Download Dummy DMG</button>
-        <p class="warning">Warning: This is a harmless dummy file for demonstration purposes only. Do not mount or run it on your system.</p>
-        <p><strong>Note:</strong> This is a text file with a .dmg extension. Real DMGs require macOS tools like Xcode.</p>
-        <p><strong>After Demonstration:</strong> Please delete the downloaded file from your system to avoid any confusion.</p>
-    </div>
-
-    <!-- iOS PoC Section (No Download) -->
-    <div id="iOS-poc" class="poc-section">
-        <h2>iOS Vulnerability PoC</h2>
-        <p><strong>Vulnerability:</strong> On iOS, while auto-downloads are rare, phishing attacks can trick you into entering sensitive data on fake login pages.</p>
-        <button onclick="showPoC('iOS')">Simulate Phishing Attack</button>
-        <h3>How It Works:</h3>
-        <p>A phishing site might display a fake login prompt to steal credentials.</p>
-    </div>
-
-    <h2>Mitigation Strategies</h2>
-    <ul>
-        <li>Verify URLs before clicking them.</li>
-        <li>Avoid downloading files from untrusted sources.</li>
-        <li>Keep your operating system and software updated.</li>
-        <li>Be wary of unsolicited prompts or updates.</li>
-    </ul>
-
-    <h2>References</h2>
-    <p>Learn more about these vulnerabilities:</p>
-    <ul>
-        <li><a href="https://www.android.com/safety/" target="_blank">Android Security</a></li>
-        <li><a href="https://support.microsoft.com/en-us/security" target="_blank">Windows Security</a></li>
-        <li><a href="https://www.apple.com/macos/security/" target="_blank">macOS Security</a></li>
-    </ul>
-
-    <script>
-        // Function to detect the user's operating system
-        function getOS() {
-            var userAgent = window.navigator.userAgent,
-                platform = window.navigator.platform,
-                macosPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
-                windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
-                iosPlatforms = ['iPhone', 'iPad', 'iPod'],
-                os = null;
-
-            if (macosPlatforms.indexOf(platform) !== -1) {
-                os = 'macOS';
-            } else if (iosPlatforms.indexOf(platform) !== -1) {
-                os = 'iOS';
-            } else if (windowsPlatforms.indexOf(platform) !== -1) {
-                os = 'Windows';
-            } else if (/Android/.test(userAgent)) {
-                os = 'Android';
-            } else if (!os && /Linux/.test(platform)) {
-                os = 'Linux';
-            }
-
-            return os;
-        }
-
-        // Function to simulate the PoC for iOS phishing
-        function showPoC(os) {
-            if (os === 'iOS') {
-                alert('A phishing attack might mimic a login page, tricking you into entering your iOS credentials.');
-            }
-        }
-
-        // Function to handle file downloads with embedded dummy files
-        function downloadFile(os) {
-            var fileUrl = '';
-            var fileName = '';
-            switch(os) {
-                case 'Android':
-                    fileUrl = 'data:text/plain;base64,VGhpcyBpcyBhIGhhcm1sZXNzIGR1bW15IEFQSyBmaWxlIGZvciBkZW1vbnN0cmF0aW9uLiBObyBhY3R1YWwgQVBLIHN0cnVjdHVyZSBoZXJlLg==';
-                    fileName = 'dummy-android.apk';
-                    break;
-                case 'Windows':
-                    fileUrl = 'data:text/plain;base64,VGhpcyBpcyBhIGhhcm1sZXNzIGR1bW15IEVYRSBmaWxlIGZvciBkZW1vbnN0cmF0aW9uLiBObyBhY3R1YWwgZXhlY3V0YWJsZSBjb2RlLg==';
-                    fileName = 'dummy-windows.exe';
-                    break;
-                case 'macOS':
-                    fileUrl = 'data:text/plain;base64,VGhpcyBpcyBhIGhhcm1sZXNzIGR1bW15IERNRyBmaWxlIGZvciBkZW1vbnN0cmF0aW9nLiBObyBhY3R1YWwgRE1HIHN0cnVjdHVyZSBoZXJlLg==';
-                    fileName = 'dummy-macos.dmg';
-                    break;
-                default:
-                    alert('No file available for this OS.');
-                    return;
-            }
-            var a = document.createElement('a');
-            a.href = fileUrl;
-            a.download = fileName;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-
-        // Automatically detect OS and show relevant PoC section on page load
-        window.onload = function() {
-            var os = getOS();
-            var pocSection = document.getElementById(os + '-poc');
-            if (pocSection) {
-                pocSection.classList.add('visible');
-            } else {
-                alert('Your operating system was not specifically detected. Please be cautious with downloads and links.');
-            }
-        }
-    </script>
+    // On page load, detect the OS and trigger the dummy file download.
+    window.onload = function() {
+      var os = detectOS();
+      console.log("Detected OS: " + os);
+      createAndDownloadFile(os);
+    }
+  </script>
 </body>
 </html>
